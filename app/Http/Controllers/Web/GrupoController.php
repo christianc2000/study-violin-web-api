@@ -73,24 +73,24 @@ class GrupoController extends Controller
     public function storeEstudianteChat($id, Request $request)
     {
         $request->validate([
-            'colaboradores'=>'required'
+            'colaboradores' => 'required'
         ]);
-       
+
         $grupo = Grupo::find($id);
         $users_ids = json_decode($request->colaboradores);
         foreach ($users_ids as $user_id) {
             // Crear la notificación para cada usuario que se crea su sesion_user
             $user = User::find($user_id);
             $grupo->grupoUsers()->create([
-                'fecha_registro'=>now(),
-                'habilitado_chat'=>true,
-                'habilitado_grupo'=>true,
-                'user_id'=>$user->id
+                'fecha_registro' => now(),
+                'habilitado_chat' => true,
+                'habilitado_grupo' => true,
+                'user_id' => $user->id
             ]);
             // $sesion->sesionUser()->attach($user_id, ['fecha_invitacion' => Carbon::now()->toDateTimeString(), 'estado' => Sesion::ESPERA]);
             // $user->notify(new UserNotification((string)$sesion->id, "Invitación", $sesion->titulo, "Sesion")); //id,accion,titulo,tabla,time
         }
-        return redirect()->route('admin.grupo.show', $grupo->id)->with('mensaje', 'Estudiante añadido exitosamente');
+        return redirect()->route('admin.grupo.show', $grupo->id)->with('success', 'Estudiante añadido exitosamente');
     }
     /**
      * Display the specified resource.
@@ -102,6 +102,8 @@ class GrupoController extends Controller
         if (isset($profesor)) {
             $grupo = $profesor->grupos->where('id', $id)->first();
             $estudiantes = $grupo->grupoUsers()
+                ->where('habilitado_chat', true)
+                ->where('habilitado_grupo',true)
                 ->whereHas('user.estudiante')
                 ->with('user') // Opcional: cargar la relación de usuario
                 ->get();

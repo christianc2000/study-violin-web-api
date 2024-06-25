@@ -26,6 +26,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'ci',
         'name',
         'lastname',
         'gender',
@@ -89,5 +90,8 @@ class User extends Authenticatable
     public function tutor()
     {
         return $this->hasOne(Tutor::class, 'id');
+    }
+    public function grupoUsers(){
+        return $this->hasMany(GrupoUser::class);
     }
 }

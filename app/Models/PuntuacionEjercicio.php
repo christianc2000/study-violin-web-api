@@ -11,6 +11,7 @@ class PuntuacionEjercicio extends Model
     public $table = "puntuacion_ejercicios";
     protected $fillable = [
         'puntuacion_obtenida',
+        'fecha_registro',
         'ejercicio_id',
         'estudiante_id'
     ];

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('puntuacion');
             $table->foreignId('nivel_id')->references('id')->on('nivels')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('tutor_id')->references('id')->on('tutors')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('tutor_id')->nullable()->references('id')->on('tutors')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

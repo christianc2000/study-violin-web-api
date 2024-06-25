@@ -10,8 +10,11 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\NotificacionController;
 use App\Http\Controllers\Web\EstudianteController;
 use App\Http\Controllers\Web\GrupoController;
+use App\Http\Controllers\Web\SuscripcionController;
 use App\Http\Controllers\Web\TutorController;
 
 /*
@@ -26,16 +29,24 @@ use App\Http\Controllers\Web\TutorController;
 */
 
 Route::redirect('/', 'login');
-
+Route::get('/registrar',[AuthController::class,'register'])->name('registrar');
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::prefix('admin')->group(function () {
         //Grupo
         Route::resource('/grupo', GrupoController::class)->names('admin.grupo');
-        Route::get('/grupo/{id}/chat',[GrupoController::class,'chat'])->name('admin.grupo.chat');
-        Route::post('/grupo/{id}/chat/store/estudiante',[GrupoController::class,'storeEstudianteChat'])->name('admin.grupo.chat.store.estudiante');
+        Route::get('/grupo/{id}/chat', [GrupoController::class, 'chat'])->name('admin.grupo.chat');
+        Route::post('/grupo/{id}/chat/store/estudiante', [GrupoController::class, 'storeEstudianteChat'])->name('admin.grupo.chat.store.estudiante');
         Route::resource('/estudiante', EstudianteController::class)->names('admin.estudiante');
+        Route::get('/estudiante/{id}/profile',[EstudianteController::class,'profile'])->name('admin.estudiante.perfil');
+        Route::get('/estudiante/{id}/tutor',[EstudianteController::class,'tutor'])->name('admin.estudiante.tutor');
+        Route::post('/estudiante/delete-tutor',[EstudianteController::class,'deleteTutor'])->name('admin.estudiante.tutor.delete');
+        Route::post('/estudiante/add-tutor',[EstudianteController::class,'addTutor'])->name('admin.estudiante.tutor.store');
+        Route::post('/estudiante/desvincular',[EstudianteController::class,'desvincular'])->name('admin.estudiante.desvincular');
         Route::resource('/tutor', TutorController::class)->names('admin.tutor');
+        Route::resource('/suscripcion',SuscripcionController::class)->names('admin.suscripcion');
+        Route::get('/notificacion', [NotificacionController::class, 'index'])->name('admin.notificacion.index');
     });
+
     // Route for the getting the data feed
     Route::get('/json-data-feed', [DataFeedController::class, 'getDataFeed'])->name('json_data_feed');
 

@@ -8,18 +8,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NotificacionEjercicio extends Notification
+class NotificacionEjercicio extends Notification implements ShouldQueue
 {
     use Queueable;
-    private $mensaje;
+    private $title;
+    private $content;
+    private $image;
     private $ejercicioId;
     private $estudianteId;
     /**
      * Create a new notification instance.
      */
-    public function __construct($mensaje, $ejercicioId, $estudianteId)
+    public function __construct($title, $content, $image, $ejercicioId, $estudianteId)
     {
-        $this->mensaje = $mensaje;
+        $this->title = $title;
+        $this->content = $content;
+        $this->image=$image;
         $this->ejercicioId = $ejercicioId;
         $this->estudianteId = $estudianteId;
     }
@@ -31,7 +35,7 @@ class NotificacionEjercicio extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -53,9 +57,11 @@ class NotificacionEjercicio extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'title' => $this->title,
+            'content' => $this->content,
+            'image'=>$this->image,
             'estudianteId' => $this->estudianteId,
-            'ejercicioId' => $this->ejercicioId,
-            'mensaje' => $this->mensaje,
+            'ejercicioId' => $this->ejercicioId
         ];
     }
 }

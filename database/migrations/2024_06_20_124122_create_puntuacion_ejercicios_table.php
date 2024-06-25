@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('puntuacion_ejercicios', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('puntuacion_obtenida');
+            $table->timestamp('fecha_registro')->nullable();
+            $table->foreignId('ejercicio_id')->references('id')->on('ejercicios')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('estudiante_id')->references('id')->on('estudiantes')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

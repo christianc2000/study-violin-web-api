@@ -69,39 +69,35 @@ class EjercicioController extends Controller
         //
     }
 
-    public function registrarPuntaje(string $idEjercicio, Request $request)
+    public function registrarPuntaje(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,id',
+            'ejercicio_id' => 'required|exists:ejercicios,id',
+            'fecha_registro'=> 'required',
+            'user_id' => 'required|exists:users,id', //user del estudiante
             'puntos' => 'required|numeric'
         ]);
 
         if ($validator->fails()) {
             return $this->respondFailedValidation($validator->errors());
         }
-
-        $ejercicio = Ejercicio::find($idEjercicio);
-        if (!$ejercicio) {
-            return $this->respondError("El ID del ejercicio es inválido");
-        }
-
+        $ejercicio = Ejercicio::find($request->ejercicio_id);
         $estudiante = Estudiante::find($request->user_id);
-        if (!$estudiante) {
-            return $this->respondError("El ID del estudiante es inválido");
-        }
-
         $profesoresValidos = $estudiante->estudianteProfesor->where('estado', true);
-        //return $profesoresValidos->first();
+        $estudiante->puntuacion=(int)$estudiante->puntuacion+(int)$request->puntos;
+        $estudiante->save();
         foreach ($profesoresValidos as $profesorvalido) {
-            $mensaje = "El estudiante " . $estudiante->user->name . " " . $estudiante->user->lastname . ", ha obtenido en el ejercicio " . $ejercicio->nombre . " " . $request->puntos . " puntos.";
-            $profesorvalido->profesor->user->notify(new NotificacionEjercicio($mensaje, $ejercicio->id, $estudiante->id));
+            $content = "El estudiante " . $estudiante->user->name . " " . $estudiante->user->lastname . " ha completado el ejercicio '" . $ejercicio->nombre . "' y ha obtenido " . $request->puntos . " puntos.";
+            $profesorvalido->profesor->user->notify(new NotificacionEjercicio('Ejercicio realizado',$content,$estudiante->user->image,$ejercicio->id,$estudiante->id));
         }
 
         $puntuacionEjercicio = $ejercicio->puntuacionEjercicios()->create([
             'puntuacion_obtenida' => $request->puntos,
+            'fecha_registro'=>$request->fecha_registro,
             'estudiante_id' => $estudiante->id
         ]);
+        $puntuacionTotal = $estudiante->puntuacionTotalEjercicio($ejercicio->id);
 
-        return $this->respondSuccess($puntuacionEjercicio);
+        return $this->respondWithSuccess(['puntaje'=>$estudiante->puntuacion,'ejercicio_id'=>$ejercicio->id]);
     }
 }

@@ -35,6 +35,7 @@ class TutorSeeder extends Seeder
             $imagePath = '/' . 'imagenes/' . $filename;
 
             $user = User::create([
+                'ci'=>"".$faker->numberBetween(10000000,90000000),
                 'name' => $faker->firstName,
                 'lastname' => $faker->lastName,
                 'gender' => $faker->randomElement(['M', 'F']),

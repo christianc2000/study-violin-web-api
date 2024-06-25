@@ -1,7 +1,14 @@
 <x-app-layout>
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+        @php
+            $titulo=''.$grupo->nombre;
+        @endphp
+        <x-breadcrumbs :breadcrumbs="[
+            ['nombre' => 'Lista de grupos', 'href' => route('admin.grupo.index')],
+            ['nombre' => $titulo, 'href' => route('admin.grupo.show',$grupo->id)],
+        ]" />
         <div class="mb-3">
-            <h5 class="text-xl font-semibold mb-4">Bienvenido al grupo "{{ $grupo->nombre }}"</h5>
+            {{-- <h5 class="text-xl font-semibold mb-4">Bienvenido al grupo "{{ $grupo->nombre }}"</h5> --}}
             <button type="button" onclick="openModal()" class="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold text-xs uppercase tracking-widest rounded-md transition">
                 Agregar estudiante
             </button>
@@ -17,7 +24,7 @@
                     </div>
                 </div>
 
-                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 divide-y divide-gray-200">
+                <ul class="grid grid-cols-1 sm:grid-cols-2 divide-y divide-gray-200">
                     @if ($estudiantes->isEmpty())
                         <p class="text-center text-gray-600 p-4">No hay estudiantes registrados.</p>
                     @else
@@ -30,7 +37,7 @@
                                         class="ml-3 text-sm font-medium">{{ $estudiante->user->name . ' ' . $estudiante->user->lastname }}</span>
                                 </div>
                                 <div>
-                                    <button class="text-gray-500 hover:text-gray-700">
+                                    <a class="text-gray-500 hover:text-gray-700" href="{{route('admin.estudiante.perfil',$estudiante->user->id)}}">
                                         <svg width="800px" height="800px" class="h-6 w-6" viewBox="-10 -5 1034 1034"
                                             xmlns="http://www.w3.org/2000/svg"
                                             xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
@@ -40,36 +47,7 @@
                                                 l-27 -27l-4 -4l51 -123v-1v0l-123 -51q-1 -23 0 -44l123 -51v0l-51 -124q15 -17 31 -31l123 51h1l51 -123q11 -1 22 -1zM500 450q-6 0 -13 1l-29 72l-73 -30l-18 18l30 72l-72 30v25l72 30l-30 73q8 9 19 18l71 -30l30 72q13 1 26 0l30 -72v0l72 30q9 -8 18 -18l-30 -72
                                                 l72 -30l1 -13l-1 -13l-72 -30l30 -72q-7 -9 -18 -18l-72 30l-30 -72zM500 577q20 0 34.5 14.5t14.5 34.5t-14.5 34t-34.5 14t-34 -14t-14 -34t14 -34.5t34 -14.5z" />
                                         </svg>
-                                    </button>
-                                    <button class="text-gray-500 hover:text-gray-700">
-                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                                            class="h-5 w-5" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                            width="410.234px" height="410.233px" viewBox="0 0 410.234 410.233"
-                                            style="enable-background:new 0 0 410.234 410.233;" xml:space="preserve">
-                                            <g>
-                                                <g>
-                                                    <g>
-                                                        <path fill="#828282" d="M352.271,253.729h-4.491V69.628h4.491c9.839,0,17.846-8.007,17.846-17.848c0-9.839-8.007-17.845-17.846-17.845H221.386
-    V16.27c0-8.985-7.282-16.27-16.27-16.27c-8.984,0-16.269,7.285-16.269,16.27v17.664H57.963c-9.839,0-17.846,8.006-17.846,17.846
-    c0,9.841,8.007,17.848,17.846,17.848h4.493v184.1h-4.493c-9.839,0-17.846,8.007-17.846,17.848
-    c0,9.842,8.007,17.849,17.846,17.849h122.582l-41.73,98.169c-3.516,8.271,0.341,17.823,8.609,21.34
-    c8.271,3.516,17.825-0.34,21.339-8.609l36.354-85.528l36.354,85.527c2.632,6.193,8.65,9.91,14.982,9.91
-    c2.12,0,4.278-0.417,6.357-1.301c8.269-3.517,12.125-13.068,8.607-21.34l-41.729-98.169h122.582
-    c9.839,0,17.846-8.007,17.846-17.849C370.117,261.734,362.11,253.729,352.271,253.729z M94.995,69.628H315.24v184.1H94.995
-    V69.628z" />
-                                                        <path fill="#828282" d="M141.043,139.062c-6.741,0-12.201,5.464-12.201,12.205v58.054c0,6.738,5.46,12.206,12.201,12.206
-    c6.738,0,12.207-5.468,12.207-12.206v-58.054C153.25,144.526,147.782,139.062,141.043,139.062z" />
-                                                        <path fill="#828282" d="M183.762,96.346c-6.742,0-12.209,5.462-12.209,12.203V209.32c0,6.739,5.467,12.206,12.209,12.206
-    c6.74,0,12.201-5.467,12.201-12.206V108.55C195.963,101.809,190.501,96.346,183.762,96.346z" />
-                                                        <path fill="#828282" d="M226.472,121.976c-6.74,0-12.201,5.463-12.201,12.202v75.144c0,6.74,5.461,12.206,12.201,12.206
-    c6.741,0,12.207-5.466,12.207-12.206v-75.144C238.679,127.439,233.214,121.976,226.472,121.976z" />
-                                                        <path fill="#828282" d="M269.192,109.161c-6.74,0-12.207,5.464-12.207,12.205v87.955c0,6.738,5.467,12.206,12.207,12.206
-    c6.738,0,12.199-5.468,12.199-12.206v-87.955C281.391,114.626,275.929,109.161,269.192,109.161z" />
-                                                    </g>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </button>
+                                    </a>
                                 </div>
                             </li>
                         @endforeach
@@ -356,14 +334,14 @@
             });
         });
     </script>
-    @if (session('mensaje'))
+    @if (session('success'))
         <script>
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true
             }
             console.log("ingresa a success");
-            toastr.success("{{ session('mensaje') }}");
+            toastr.success("{{ session('success') }}");
         </script>
     @endif
 

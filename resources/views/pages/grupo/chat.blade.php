@@ -1,9 +1,17 @@
 <x-app-layout>
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl">
+        @php
+            $titulo=''.$grupo->nombre;
+        @endphp
+        <x-breadcrumbs :breadcrumbs="[
+            ['nombre' => 'Lista de grupos', 'href' => route('admin.grupo.index')],
+            ['nombre' => $titulo, 'href' => route('admin.grupo.show',$grupo->id)],
+            ['nombre' => 'Chat', 'href' => route('admin.grupo.chat',$grupo->id)],
+        ]" />
         <div class="flex-1 flex flex-col min-h-screen">
-            <header class="bg-white p-4 text-gray-700">
+            {{-- <header class="bg-white p-4 text-gray-700">
                 <h1 class="text-2xl font-semibold">Chat del grupo {{ $grupo->nombre }}</h1>
-            </header>
+            </header> --}}
 
             <div class="flex-1 overflow-y-auto p-4" id="chat-messages">
                 @if ($mensajes->isEmpty())

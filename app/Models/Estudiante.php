@@ -10,8 +10,10 @@ class Estudiante extends Model
     use HasFactory;
     public $table = "estudiantes";
     protected $fillable=[
+        'id',
         'puntuacion',
-        'nivel_id'
+        'nivel_id',
+        'tutor_id'
     ];
 
     public function user()
@@ -37,5 +39,14 @@ class Estudiante extends Model
     public function niveles()
     {
         return $this->belongsTo(Nivel::class, 'nivel_id', 'id');
+    }
+    public function puntuacionTotalEjercicio(int $ejercicioId)
+    {
+        // Obtener la suma de puntuaciones del ejercicio específico para este estudiante
+        $puntuacionTotal = $this->puntuacionEjercicios()
+                               ->where('ejercicio_id', $ejercicioId)
+                               ->sum('puntuacion_obtenida');
+
+        return $puntuacionTotal;
     }
 }

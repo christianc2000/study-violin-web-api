@@ -53,23 +53,8 @@ class GrupoController extends Controller
             ->where('estado', true) // Opcional: puedes aplicar condiciones adicionales si lo necesitas
             ->with('estudiante') // Cargar la relación del estudiante
             ->get();
-
-        
         // Obtener los IDs de usuario de los usuarios del grupo
-        $grupoUsuariosIds = $grupo->grupoUsers->pluck('user_id')->toArray();
-
-        // Filtrar los estudiantes que están en el grupo
-        // $estudiantesEnGrupo = $estudiantes->filter(function ($estudiante) use ($grupoUsuariosIds) {
-        //     return in_array($estudiante->estudiante->id, $grupoUsuariosIds);
-        // });
-
-        // Filtrar los estudiantes que NO están en el grupo
-
-        // Retorna los estudiantes en y fuera del grupo
-        // return response()->json([
-        //     'estudiantes_en_grupo' => $estudiantesEnGrupo,
-        //     'estudiantes_fuera_grupo' => $estudiantesFueraGrupo
-        // ]);
+        $grupoUsuariosIds = $grupo->grupoUsers->where('habilitado_chat',true)->pluck('user_id')->toArray();
         $estudiantesFueraGrupo = $estudiantes->filter(function ($estudiante) use ($grupoUsuariosIds) {
             return !in_array($estudiante->estudiante->id, $grupoUsuariosIds);
         });

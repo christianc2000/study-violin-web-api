@@ -1,27 +1,31 @@
 <x-app-layout>
     <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-        <h5 class="text-2xl font-semibold mb-4">Agregar Grupo</h5>
+        <x-breadcrumbs :breadcrumbs="[
+            ['nombre' => 'Lista de grupos', 'href' => route('admin.grupo.index')],
+            ['nombre' => 'Agregar grupo', 'href' => route('admin.grupo.create')],
+        ]" />
+        {{-- <h5 class="text-2xl font-semibold mb-4">Agregar Grupo</h5> --}}
 
         <form action="{{ route('admin.grupo.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
+                <label for="nombre" class="form-label text-sm font-medium text-gray-800">Nombre</label>
                 <x-input-text id="nombre" name="nombre" />
             </div>
 
             <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripción</label>
+                <label for="descripcion" class="form-label text-sm font-medium text-gray-800">Descripción</label>
                 <x-textarea id="descripcion" name="descripcion"></x-textarea>
             </div>
 
             <div class="mb-3">
-                <label for="fecha_creacion" class="form-label">Fecha de Creación</label>
+                <label for="fecha_creacion" class="form-label text-sm font-medium text-gray-800">Fecha de Creación</label>
                 <x-input-text id="fecha_creacion" name="fecha_creacion" type="date" />
             </div>
 
             <div class="mb-3">
-                <label for="nivel_id" class="form-label">Nivel</label>
+                <label for="nivel_id" class="form-label text-sm font-medium text-gray-800">Nivel</label>
                 <x-select id="nivel_id" name="nivel_id">
                     @foreach ($niveles as $nivel)
                         <option value="{{ $nivel->id }}">{{ $nivel->nombre }}</option>

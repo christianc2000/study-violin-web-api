@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\EjercicioController;
+use App\Http\Controllers\Api\EstudianteController;
 use App\Http\Controllers\Api\GrupoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,5 @@ Route::get('grupos/{id}',[GrupoController::class,'getGruposByNivel']);
 Route::post('grupo/{id}/mensaje', [GrupoController::class, 'sendMessage'])->name('api.send-message');
 // buscador de usuario por el username
 Route::get('search',[GrupoController::class,'searchUser']);
-Route::post('registrar-puntos/{id}',[EjercicioController::class,'registrarPuntaje']);
+Route::get('search-estudiante',[EstudianteController::class,'searchUser']);
+Route::post('registrar-puntos',[EjercicioController::class,'registrarPuntaje']);

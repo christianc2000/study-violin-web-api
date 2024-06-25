@@ -18,7 +18,7 @@
     >
 
         <!-- Sidebar header -->
-        <div class="flex justify-between mb-10 pr-3 sm:px-2">
+        <div class="flex justify-between mb-8 pr-3 sm:px-2">
             <!-- Close button -->
             <button class="lg:hidden text-slate-500 hover:text-slate-400" @click.stop="sidebarOpen = !sidebarOpen" aria-controls="sidebar" :aria-expanded="sidebarOpen">
                 <span class="sr-only">Close sidebar</span>
@@ -83,7 +83,7 @@
                     </li> --}}
                     <!-- Estudiante -->
                     <li class="px-3 py-2 rounded-sm mb-0.5 last:mb-0  @if(in_array(Request::segment(1), ['estudiante'])){{ 'bg-slate-900' }}@endif">
-                        <a class="block text-slate-200 hover:text-white truncate transition duration-150 @if (Route::is('admin.estudiante.index')) {{ '!text-indigo-500' }} @endif" href="{{route('admin.estudiante.index')}}">
+                        <a class="block text-slate-200 hover:text-white truncate transition duration-150 @if (Route::is('admin.estudiante.index')||Route::is('admin.estudiante.create')||Route::is('admin.estudiante.perfil')) {{ '!text-indigo-500' }} @endif" href="{{route('admin.estudiante.index')}}">
                             <div class="flex items-center">
                                 <svg class="shrink-0 h-6 w-6" viewBox="0 0 24 24">
                                     <path class="fill-current @if(in_array(Request::segment(1), ['grupo'])){{ 'text-indigo-500' }}@else{{ 'text-slate-600' }}@endif" d="M18.974 8H22a2 2 0 012 2v6h-2v5a1 1 0 01-1 1h-2a1 1 0 01-1-1v-5h-2v-6a2 2 0 012-2h.974zM20 7a2 2 0 11-.001-3.999A2 2 0 0120 7zM2.974 8H6a2 2 0 012 2v6H6v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5H0v-6a2 2 0 012-2h.974zM4 7a2 2 0 11-.001-3.999A2 2 0 014 7z" />
@@ -104,6 +104,18 @@
                                     <circle class="fill-current @if(in_array(Request::segment(1), ['utility'])){{ 'text-indigo-300' }}@else{{ 'text-slate-400' }}@endif" cx="5.5" cy="18.5" r="4.5" />
                                 </svg>
                                 <span class="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Grupo</span>
+                            </div>
+                        </a>
+                    </li>
+                    <!-- Suscripción -->
+                    <li class="px-3 py-2 rounded-sm mb-0.5 last:mb-0 @if(in_array(Request::segment(1), ['suscripcion'])){{ 'bg-slate-900' }}@endif">
+                        <a class="block text-slate-200 hover:text-white truncate transition duration-150 @if (Route::is('admin.suscripcion.index') || Route::is('admin.suscripcion.create') || Route::is('admin.suscripcion.edit') || Route::is('admin.suscripcion.show')) {{ '!text-indigo-500' }} @endif" href="{{route('admin.suscripcion.index')}}">
+                            <div class="flex items-center">
+                                <svg class="shrink-0 h-6 w-6" viewBox="0 0 24 24">
+                                    <path class="fill-current text-slate-600" d="M8.07 16H10V8H8.07a8 8 0 110 8z" />
+                                    <path class="fill-current text-slate-400" d="M15 12L8 6v5H0v2h8v5z" />
+                                </svg>
+                                <span class="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Suscripción</span>
                             </div>
                         </a>
                     </li>
