@@ -69,7 +69,6 @@ class EstudianteController extends Controller
                 $request->foto->move(public_path('imagenes'), $imageName);
                 $path = '/' . 'imagenes/' . $imageName;
             }
-
             // Hash la contraseña antes de guardar
             $password = bcrypt($request->password);
             $profesor = Auth::user();
